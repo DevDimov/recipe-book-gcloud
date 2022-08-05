@@ -1,0 +1,21 @@
+.CategoryLabel {
+    height: 2.8rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    padding: 0 0.4rem 0 0.7rem;
+    color: var(--charcoal);
+    background-color: #FFFFFF;
+    border: 2px solid var(--light-grey);
+}
+
+.CategoryLabel svg {
+    fill: var(--charcoal);
+    width: 1.5rem;
+    transition: all 0.1s ease-in-out;
+}
+
+.CategoryLabel svg:hover {
+    fill: var(--orange);
+    transition: all 0.1s ease-in-out;
+}

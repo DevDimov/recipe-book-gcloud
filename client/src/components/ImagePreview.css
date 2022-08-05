@@ -1,0 +1,16 @@
+.image-preview {
+    width: 100%;
+    position: relative;
+}
+
+.image-preview:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.image-preview .IconButton {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+}

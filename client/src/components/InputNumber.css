@@ -1,0 +1,19 @@
+input[type="number"] {
+    width: 5rem;
+    background-color: var(--light-grey);
+}
+
+.input-number {
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+
+.input-number span {
+    margin-left: 0.5rem;
+}
+
+input[type="number"]:focus {
+    outline: 2px solid var(--orange);
+    background-color: white;
+}

@@ -1,2 +1,4 @@
-node_modules
-server-ignoreForNow.js
+/node_modules
+/client/node_modules
+.env
+/server/sample_responses

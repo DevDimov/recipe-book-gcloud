@@ -1,0 +1,13 @@
+#search-filters {
+    display: flex;
+    row-gap: 1rem;
+    flex-direction: column;
+    padding-bottom: 2rem;
+}
+
+/* .is-active {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease-in-out;
+    pointer-events: all;
+} */

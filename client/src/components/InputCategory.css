@@ -1,0 +1,19 @@
+.input-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    column-gap: 0.5rem;
+    width: 100%;
+}
+
+.categories-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-self: flex-start;
+    grid-gap: 0.5rem;
+}
+
+.suggestions-container {
+    position: relative;
+    width: 100%;
+}

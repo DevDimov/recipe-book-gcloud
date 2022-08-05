@@ -1,0 +1,57 @@
+.formContainer>#arrowBackButton {
+    position: absolute;
+    top: -3rem;
+    left: 0;
+    background-color: transparent;
+}
+
+.formContainer>#arrowBackButton:hover {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+#newEntryForm {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+#newEntryForm input[type="text"],
+#newEntryForm textarea {
+    background-color: var(--light-grey);
+}
+
+#newEntryForm textarea#ingredients {
+    border-bottom-right-radius: 0;
+    line-height: 2;
+}
+
+#newEntryForm input:focus,
+#newEntryForm textarea:focus {
+    outline: 2px solid var(--orange);
+    background-color: white;
+}
+
+.textarea-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.textarea-container.hidden {
+    opacity: 0;
+}
+
+.textarea-container div {
+    position: absolute;
+    display: flex;
+    align-items: center;
+}
+
+.textarea-container div h2 {
+    color: #999;
+}
