@@ -1,0 +1,5 @@
+steps:
+# Install dependencies
+- name: node
+  entrypoint: npm
+  args: ['install']
