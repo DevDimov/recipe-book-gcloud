@@ -1,10 +1,10 @@
 # Recipe App with React, Node, SQL and Google Cloud
 
-A minimalist recipe app for storing one's favourite recipes in one place. It uses React on the front-end, and Node.js on the back-end. It stores recipe information in a MongoDB database and recipe images in an AWS S3 bucket.
+A minimalist recipe app for storing one's favourite recipes in one place. It uses React on the front-end, and Node.js on the back-end. It stores recipe information and images in a Google Cloud SQL database.
 
 ## Demo
 
-Deployed on AWS Elastic Beanstalk with CodePipeline. To view and interact with the app via a web browser, please contact me.
+Deployed on Google Cloud with App Engine and Cloud Build services. To view and interact with the app via a web browser, please contact me.
 
 ## Screenshots
 
@@ -18,7 +18,7 @@ Deployed on AWS Elastic Beanstalk with CodePipeline. To view and interact with t
 
 ## Motivation
 
-I built this project for the purpose of learning React, working with MongoDB and AWS, and practicing coding in general.
+I built this project for the purpose of learning React, working with SQL and Google Cloud, and practicing coding in general.
 
 ## Languages and tools used
 
@@ -30,7 +30,8 @@ I built this project for the purpose of learning React, working with MongoDB and
 - Express
 - NPM
 - GitHub
-- AWS S3
-- AWS Elastic Beanstalk
+- Google Cloud App Engine
+- Google Cloud Build
+- Google Cloud SQL
 - Visual Studio Code
 - Figma
