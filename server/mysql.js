@@ -97,67 +97,76 @@ const testConnection = () => {
 //     return query
 // }
 
-// const getLatestDocuments = async (limit) => {
-//     try {
-//         await client.connect()
-//         const cursor = client.db("recipe_book").collection("vd_recipes").find({}, { limit })
-//         return await cursor.toArray()
-//     } catch (e) {
-//         console.error(e);
-//         return []
-//     } finally {
-//         await client.close();
-//     }
-// }
+const getRecipes = (limit) => {
+    const data = []
+    recipe = {}
 
-const insertRecipe = (newRecipe) => {
+    connection.connect();
+    connection.query(
+        `SELECT * FROM recipes
+        LEFT JOIN category ON recipes.id = category.id
+        LEFT JOIN method ON recipes.id = method.id
+        LEFT JOIN image ON recipes.id = image.id
+        LIMIT ${limit}`,
+        
+        function (error, results, fields) {
+            if (error) throw error
+            console.log(results, fields);
+            results.forEach(recipe => {
+                var recipeData = {
+                    id: recipe.id,
+                    name: recipe.name,
+                    description: recipe.description,
+                    ingredients: recipe.ingredients,
+                    prepTime: recipe.prepTime,
+                    servings: recipe.servings,
+                    category: [
+                        recipe.category1,
+                        recipe.category2,
+                        recipe.category3
+                    ],
+                    method: [
+                        recipe.step1,
+                        recipe.step2,
+                        recipe.step3,
+                        recipe.step4,
+                        recipe.step5,
+                        recipe.step6,
+                        recipe.step7,
+                        recipe.step8,
+                    ],
+                    image: recipe.image
+                }
+                data.push(recipeData)
+            })
+        });
+    connection.end();
+    return data
+}
+
+const insertRecipe = (recipeData, categoryData, methodData, imageData) => {
+    const tables = ['recipes', 'category', 'method', 'image']
+    const data = {
+        'recipes': recipeData,
+        'category': categoryData,
+        'method': methodData,
+        'image': imageData
+    }
+
     connection.connect();
 
-    var query = connection.query('INSERT INTO recipes SET ?', newRecipe, function (error, results, fields) {
-        if (error) throw error;
-        console.log(results);
-        console.log(fields)
-    });
+    for (const table of tables) {
+        connection.query(`INSERT INTO ${table} SET ?`, data[table], function (error, results, fields) {
+            if (error) {
+                deleteRecipeById(recipeData.id)
+                throw error
+            }
+            console.log(table, results, fields);
+        });
+    }
 
     connection.end();
 }
-
-const insertCategory = (categoryData) => {
-    connection.connect();
-
-    var query = connection.query('INSERT INTO category SET ?', categoryData, function (error, results, fields) {
-        if (error) throw error;
-        console.log(results);
-        console.log(fields)
-    });
-
-    connection.end();
-}
-
-const insertMethod = (methodData) => {
-    connection.connect();
-
-    var query = connection.query('INSERT INTO method SET ?', methodData, function (error, results, fields) {
-        if (error) throw error;
-        console.log(results);
-        console.log(fields)
-    });
-
-    connection.end();
-}
-
-const insertImage = (imageData) => {
-    connection.connect();
-
-    var query = connection.query('INSERT INTO image SET ?', imageData, function (error, results, fields) {
-        if (error) throw error;
-        console.log(results);
-        console.log(fields)
-    });
-
-    connection.end();
-}
-
 
 // const testRecipe = {
 //     id: nanoid(10),
@@ -169,52 +178,30 @@ const insertImage = (imageData) => {
 // }
 // insertRecipe(testRecipe)
 
-const deleteRecipeById = async (id, filePath) => {
+const deleteRecipeById = async (id) => {
+    const tables = ['recipes', 'category', 'method', 'image']
     connection.connect();
 
-    connection.query('DELETE FROM recipes WHERE id=?', [id], function (error, results, fields) {
-        if (error) throw error;
-        console.log(results);
-    });
-
-    connection.query('DELETE FROM category WHERE id=?', [id], function (error, results, fields) {
-        if (error) throw error;
-        console.log(results);
-    });
-
-    connection.query('DELETE FROM method WHERE id=?', [id], function (error, results, fields) {
-        if (error) throw error;
-        console.log(results);
-    });
-
-    connection.query('DELETE FROM image WHERE id=?', [id], function (error, results, fields) {
-        if (error) throw error;
-        console.log(results);
-    });
+    for (const table of tables) {
+        connection.query(`DELETE FROM ${table} WHERE id=?`, [id], function (error, results, fields) {
+            if (error) {
+                console.log('couldnt delete from', table)
+                throw error
+            }
+            console.log(table, results, fields);
+        });
+    }
 
     connection.end();
-
-    deleteMulterImage(filePath)
-}
-
-const deleteMulterImage = async (filePath) => {
-    fs.unlink(filePath, (err => {
-        if (err) console.log(err);
-        else {
-            console.log("Deleted file from:" + filePath);
-        }
-    }));
 }
 
 module.exports = {
     testConnection,
+    getRecipes,
     // searchByName,
     // searchByExactName,
     // searchWithFilters,
     // getLatestDocuments,
     insertRecipe,
-    insertCategory,
-    insertMethod,
-    insertImage,
     deleteRecipeById
 }

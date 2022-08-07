@@ -5,6 +5,7 @@ require('dotenv')
 
 // Import database CRUD actions
 const mysql = require('./server/mysql.js')
+const { deleteMulterImage } = require('./server/util.js')
 
 const { nanoid } = require('nanoid')
 const multer = require('multer')
@@ -25,51 +26,46 @@ app.get('/', (req, res) => {
 })
 
 app.post('/insert', upload.single('file'), async (req, res) => {
-    
+    const filePath = req.file.path
     try {
-        const newRecipe = {
+        const recipeData = {
             id: nanoid(10),
             name: req.body.name,
             description: req.body.description,
             ingredients: req.body.ingredients,
             prepTime: parseInt(req.body.prepTime),
-            servings: parseInt(req.body.servings) 
+            servings: parseInt(req.body.servings)
         }
-        const recipeResponse = mysql.insertRecipe(newRecipe)
-        console.log(recipeResponse)
 
         const categories = req.body.category.split(',')
         const categoryData = {
-            id: newRecipe.id,
+            id: recipeData.id,
             category1: categories[0],
             category2: categories[1],
             category3: categories[2],
         }
-        const categoryResponse = mysql.insertCategory(categoryData)
-        console.log(categoryResponse)
 
-        const method = req.body.method.split(',')
+        const method = req.body.method
         const methodData = {
-            id: newRecipe.id,
-            method1: method[0],
-            method2: method[1],
-            method3: method[2],
-            method4: method[3],
-            method5: method[4],
-            method6: method[5],
-            method7: method[6],
-            method8: method[7],
+            id: recipeData.id,
+            step1: method[0],
+            step2: method[1],
+            step3: method[2],
+            step4: method[3],
+            step5: method[4],
+            step6: method[5],
+            step7: method[6],
+            step8: method[7],
         }
-        const methodResponse = mysql.insertMethod(methodData)
-        console.log(methodResponse)
 
         const imageData = {
-            id: newRecipe.id,
-            image: fs.createReadStream(req.file.path)
+            id: recipeData.id,
+            image: fs.createReadStream(filePath)
         }
-        const imageResponse = mysql.insertImage(imageData)
-        console.log(imageResponse)
-        
+
+        const recipeResponse = mysql.insertRecipe(recipeData, categoryData, methodData, imageData)
+        console.log(recipeResponse)
+
         // const docId = mongoResponse.insertedId
 
         // s3Response = await s3UploadObject(req.file, docId)
@@ -77,12 +73,14 @@ app.post('/insert', upload.single('file'), async (req, res) => {
         //     mongodb.deleteDocumentById(docId)
         //     return res.status(404).json({ error: 'Unable to upload image' })
         // }
-        // mysql.deleteRecipeById(newRecipe.id, req.file.path)
+        // mysql.deleteRecipeById(newRecipe.id, filePath)
 
-        return res.status(200).json({ insertedId: newRecipe.id, recipe: recipeResponse, image: imageResponse })
+        return res.status(200).json({ insertedId: recipeData.id, recipe: recipeResponse, image: imageResponse })
 
     } catch (err) {
         return res.status(500).json({ error: err.message })
+    } finally {
+        deleteMulterImage(filePath)
     }
 })
 
@@ -99,10 +97,10 @@ app.get('/images/:key', async (req, res) => {
     }
 })
 
-app.get('/recipes/:limit', async (req, res) => {
+app.get('/recipes/:limit', (req, res) => {
     try {
         const limit = parseInt(req.params.limit)
-        const response = await mongodb.getLatestDocuments(limit)
+        const response = mysql.getRecipes(limit)
         return res.status(200).json(response)
     } catch (err) {
         return res.status(500).json({ error: err.message })
