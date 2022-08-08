@@ -3,7 +3,6 @@ import './ImageUpload.css'
 import ButtonOutlined from './buttons/ButtonOutlined'
 import uploadIcon from '../icons/file_upload.svg'
 import ImagePreview from './ImagePreview'
-import { uploadImage } from '../js/s3'
 
 const ImageUpload = ({ image, setImage }) => {
 
@@ -28,10 +27,6 @@ const ImageUpload = ({ image, setImage }) => {
             }
         }
         setImage(newImage)
-        // const formData = new FormData()
-        // formData.append('image', newImage)
-        // formData.append('Test', 'Hello from ImageUpload Component')
-        // uploadImage(formData)
     }
 
     const onClosePreview = (e) => {

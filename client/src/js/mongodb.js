@@ -1,41 +1,41 @@
-const checkDuplicateName = async (query) => {
-    return fetch('/searchByExactName', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(query),
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Duplicate name check:', data);
+// const checkDuplicateName = async (query) => {
+//     return fetch('/searchByExactName', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(query),
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log('Duplicate name check:', data);
 
-            if (data._id.length > 0) {
-                return { match: true, _id: data._id }
-            }
-            return { match: false, _id: '' }
-        })
-        .catch((error) => {
-            console.error('Error checking for duplicate name:', error);
-            return error
-        })
-}
+//             if (data._id.length > 0) {
+//                 return { match: true, _id: data._id }
+//             }
+//             return { match: false, _id: '' }
+//         })
+//         .catch((error) => {
+//             console.error('Error checking for duplicate name:', error);
+//             return error
+//         })
+// }
 
-const insertDocument = async (formData) => {
-    return fetch('/insert', {
-        method: 'POST',
-        body: formData,
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Successfully inserted doc to MongoDB:', data);
-            return data
-        })
-        .catch((error) => {
-            console.error('Error inserting doc to MongoDB:', error);
-            return error
-        })
-}
+// const insertDocument = async (formData) => {
+//     return fetch('/insert', {
+//         method: 'POST',
+//         body: formData,
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log('Successfully inserted doc to MongoDB:', data);
+//             return data
+//         })
+//         .catch((error) => {
+//             console.error('Error inserting doc to MongoDB:', error);
+//             return error
+//         })
+// }
 
 const upsertDocument = async (data) => {
     return fetch('/upsert', {
@@ -132,8 +132,8 @@ const getRecipes = async (limit) => {
 }
 
 export {
-    checkDuplicateName,
-    insertDocument,
+    // checkDuplicateName,
+    // insertDocument,
     upsertDocument,
     searchByName,
     searchByExactName,

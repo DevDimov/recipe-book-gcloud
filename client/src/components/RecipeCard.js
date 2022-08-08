@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './RecipeCard.css'
 import Recipe from './Recipe'
 import ImagePreview from './ImagePreview'
-import { s3GetImage } from '../js/s3'
+import { sqlGetImage } from '../js/mysql'
 
 const RecipeCard = ({ data }) => {
 
@@ -13,8 +13,7 @@ const RecipeCard = ({ data }) => {
 
     // useEffect(() => {
     //     const fetchImage = async () => {
-    //         const objectKey = data._id + "_" + data.image
-    //         const newImage = await s3GetImage(objectKey)
+    //         const newImage = await sqlGetImage(data.id)
     //         if (!newImage.error) setImage(newImage)
     //     }
     //     fetchImage()
@@ -28,7 +27,8 @@ const RecipeCard = ({ data }) => {
                     className="button button--card"
                     onClick={() => setShowRecipe(true)}
                 >
-                    <ImagePreview src={image ? image : `./images/pending-image.jpg`} />
+                    {/* <ImagePreview src={image ? image : './images/pending-image.jpg'} /> */}
+                    <ImagePreview src={data.image} />
                     <h2 className="card-recipe__title">{data.name}</h2>
                     <p className="card-recipe__supporting-text">{data.description}</p>
                     <div className="card-recipe__tags">
@@ -42,7 +42,7 @@ const RecipeCard = ({ data }) => {
                 <Recipe
                     handleOnClose={handleOnClose}
                     data={data}
-                    image={image}
+                    // image={image}
                 />
                 : null
             }

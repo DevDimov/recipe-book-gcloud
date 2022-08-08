@@ -19,16 +19,19 @@ const Recipe = ({ handleOnClose, data, image }) => {
                         imagePath={arrowBack}
                     />
 
-                    <ImagePreview src={image ? image : `./images/pending-image.jpg`} />
+                    {/* <ImagePreview src={image ? image : `./images/pending-image.jpg`} /> */}
+                    <ImagePreview src={data.image} />
 
                     <div>
                         <h1>{data.name}</h1>
                         <div className="tag-container">
                             {
                                 data.category.map((name) => {
-                                    return (
-                                        <Tag text={name} key={name} />
-                                    )
+                                    if (name) {
+                                        return (
+                                            <Tag text={name} key={name} />
+                                        )
+                                    }
                                 })
                             }
                             <Tag text={`${data.prepTime} mins`} key={`${data.prepTime} mins`} />
@@ -46,12 +49,14 @@ const Recipe = ({ handleOnClose, data, image }) => {
                         <h2 className="recipe__section-header">Method</h2>
                         {
                             data.method.map((step, index) => {
-                                return (
-                                    <div key={index + 1}>
-                                        <h3>{`${index + 1}.`}</h3>
-                                        <p className="recipe__section-body">{step}</p>
-                                    </div>
-                                )
+                                if (step) {
+                                    return (
+                                        <div key={index + 1}>
+                                            <h3>{`${index + 1}.`}</h3>
+                                            <p className="recipe__section-body">{step}</p>
+                                        </div>
+                                    )
+                                }
                             })
                         }
                     </div>

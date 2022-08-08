@@ -55,11 +55,11 @@ const InputMethod = ({ accessRef }) => {
 
                 <div id="instruction-container">
                     {method.length > 0 && method.map((data, index) => {
-                        return (<InputMethodStep
-                            key={data.slice(0, 10)}
-                            step={index + 1}
-                            text={data}
-                        />)
+                            return (<InputMethodStep
+                                key={data.slice(0, 10)}
+                                step={index + 1}
+                                text={data}
+                            />)
                     })}
                 </div>
 

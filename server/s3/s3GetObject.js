@@ -1,5 +1,5 @@
-const { GetObjectCommand } = require("@aws-sdk/client-s3")
-const { s3Client } = require("./s3Client.js")
+// const { GetObjectCommand } = require("@aws-sdk/client-s3")
+// const { s3Client } = require("./s3Client.js")
 
 const s3GetObject = async (objectKey) => {
 
@@ -31,5 +31,9 @@ const s3GetObject = async (objectKey) => {
         return { error: err.message }
     }
 };
+
+const sqlGetImage = (id) => {
+    
+}
 
 module.exports = { s3GetObject }

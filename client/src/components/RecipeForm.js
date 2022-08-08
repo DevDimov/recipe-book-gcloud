@@ -2,7 +2,7 @@ import { useState, useRef } from 'react'
 import './RecipeForm.css'
 import InputMethod from './InputMethod'
 import ImageUpload from './ImageUpload'
-import { insertDocument, checkDuplicateName } from '../js/mongodb'
+import { insertDocument, checkDuplicateName } from '../js/mysql'
 import Alert from './Alert'
 import InputPrepTime from './InputPrepTime'
 import InputServings from './InputServings'
@@ -32,12 +32,19 @@ const RecipeForm = ({ toggleForm }) => {
         formData.append('image', image ? image.name : '')
         formData.append('name', nameRef.current.value.trim())
         formData.append('description', descriptionRef.current.value.trim())
-        formData.append('category', categoryRef.current)
+        formData.append('category', categoryRef.current.join(' && '))
         formData.append('prepTime', prepTimeRef.current.value)
         formData.append('servings', servingsRef.current.value)
         formData.append('ingredients', ingredientsRef.current.value.trim())
-        formData.append('method', methodRef.current)
-
+        formData.append('step1', methodRef.current[0])
+        formData.append('step2', methodRef.current[1] || '')
+        formData.append('step3', methodRef.current[2] || '')
+        formData.append('step4', methodRef.current[3] || '')
+        formData.append('step5', methodRef.current[4] || '')
+        formData.append('step6', methodRef.current[5] || '')
+        formData.append('step7', methodRef.current[6] || '')
+        formData.append('step8', methodRef.current[7] || '')
+        
         const inputValid = await validateInput(formData)
         if (inputValid) {
             setSubmitStatus('Saving recipe...')
@@ -61,7 +68,7 @@ const RecipeForm = ({ toggleForm }) => {
 
         const result = await checkDuplicateName({ name: formData.get('name') })
         if (result.match) {
-            setSubmitStatus(`A recipe with the following _id has the same name: ${result._id}`)
+            setSubmitStatus(`A recipe with the same name exists. Total matches ${result.count}`)
             return false
         }
 
@@ -77,7 +84,7 @@ const RecipeForm = ({ toggleForm }) => {
             setSubmitStatus('Please add at least one recipe category')
             return false
         }
-        if (formData.get('method').length === 0) {
+        if (formData.get('step1').length === 0) {
             setSubmitStatus('Please add at least one method step')
             return false
         }
@@ -88,7 +95,7 @@ const RecipeForm = ({ toggleForm }) => {
         let newSubRes = ''
         if (response.insertedId) {
             newSubRes = "A new recipe has been successfully added to the database"
-            resetForm()
+            // resetForm()
         }
         if (response.error) {
             newSubRes = `An error has occured. ${response.error}`

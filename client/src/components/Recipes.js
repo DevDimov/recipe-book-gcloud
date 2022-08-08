@@ -12,7 +12,7 @@ const Recipes = ({ data }) => {
                             data.map((item) => {
                                 return (
                                     <RecipeCard
-                                        key={item._id}
+                                        key={item.id}
                                         data={item}
                                     />
                                 )
