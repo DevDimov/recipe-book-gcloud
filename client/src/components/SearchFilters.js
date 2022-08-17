@@ -6,7 +6,7 @@ import LabelButtonsSelectable from './LabelButtonsSelectable'
 import InputWord from './InputWord'
 import ButtonContained from './buttons/ButtonContained'
 import ButtonText from './buttons/ButtonText'
-import { searchWithFilters } from '../js/mongodb'
+import { searchWithFilters } from '../js/mysql'
 
 const SearchFilters = ({ toggleSearchFilters, setRecipes }) => {
 

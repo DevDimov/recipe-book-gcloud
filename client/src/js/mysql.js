@@ -33,24 +33,47 @@ const insertDocument = async (formData) => {
         })
 }
 
-// const sqlGetImage = async (recipeId) => {
-//     return fetch(`/images/${recipeId}`, {
-//         method: 'GET',
-//     })
-//         .then(response => response.blob())
-//         .then(data => {
-//             console.log('Success:', data);
-//             // return data
-//             return URL.createObjectURL(data);
-//         })
-//         .catch((error) => {
-//             console.error('Error:', error);
-//             return { error }
-//         })
-// }
+const searchByName = async (nameObj) => {
+    return fetch('/searchByName', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(nameObj),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            return data
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            return []
+        })
+}
+
+const searchWithFilters = async (query) => {
+    return fetch('/searchWithFilters', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(query),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            return data
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            return error
+        })
+}
 
 export {
     checkDuplicateName,
     insertDocument,
-    // sqlGetImage
+    searchByName,
+    searchWithFilters,
 }
