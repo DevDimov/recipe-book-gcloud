@@ -29,7 +29,7 @@ const InputCategory = ({ accessRef }) => {
         accessRef.current = categories
     }, [categories])
 
-    const onChange = (e) => {
+    const handleChange = (e) => {
         const userInput = e.currentTarget.value;
         let re = new RegExp(userInput, 'i');
         let matches = suggestions.filter(suggestion => suggestion.search(re) > -1)
@@ -41,7 +41,7 @@ const InputCategory = ({ accessRef }) => {
         })
     }
 
-    const onAdd = (e) => {
+    const handleClick = (e) => {
         e.preventDefault()
         const input = state.userInput.trim()
         if (input) {
@@ -84,7 +84,7 @@ const InputCategory = ({ accessRef }) => {
                     type="text"
                     id="categoryInput"
                     maxLength="40"
-                    onChange={onChange}
+                    onChange={handleChange}
                     value={state.userInput}
                     placeholder="Add up to three categories related to your recipe"
                     disabled={categories.length >= 3 ? true : false}
@@ -92,7 +92,7 @@ const InputCategory = ({ accessRef }) => {
                 <ButtonOutlined
                     text="Add"
                     iconPath={addIcon}
-                    handleOnClick={onAdd}
+                    handleClick={handleClick}
                 />
             </div>
 

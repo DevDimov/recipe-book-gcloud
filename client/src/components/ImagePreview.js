@@ -19,7 +19,7 @@ const ImagePreview = ({ src, handleOnClose }) => {
             {
                 handleOnClose && <IconButton
                     iconPath={closeIcon}
-                    handleOnClick={handleOnClose}
+                    handleClick={handleOnClose}
                 />
             }
         </div>

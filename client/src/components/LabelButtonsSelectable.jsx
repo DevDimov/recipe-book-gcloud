@@ -37,7 +37,7 @@ const LabelButtonsSelectable = ({ headerName, accessRef }) => {
                         <LabelButtonSelectable
                             key={name}
                             text={name}
-                            onSelect={onSelect}
+                            handleChange={onSelect}
                             disabled={disabled}
                         />
                     )

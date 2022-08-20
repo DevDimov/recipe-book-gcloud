@@ -84,14 +84,14 @@ const InputMethod = ({ accessRef }) => {
                 <ButtonOutlined
                     text="Add"
                     iconPath={addIcon}
-                    handleOnClick={addMethodStep}
+                    handleClick={addMethodStep}
                 />
 
                 {method.length > 0 &&
                     <ButtonOutlined
                         text='Remove last'
                         iconPath={closeIcon}
-                        handleOnClick={removeMethodStep}
+                        handleClick={removeMethodStep}
                     />
                 }
 

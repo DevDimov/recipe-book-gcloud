@@ -1,11 +1,17 @@
-const IconButton = ({ customId, iconPath, handleOnClick }) => {
+type IconButtonProps = {
+    customId: string,
+    iconPath: string,
+    handleClick(event: React.MouseEvent<HTMLButtonElement>): void;
+}
+
+const IconButton = ({ customId, iconPath, handleClick }: IconButtonProps) => {
 
     return (
         <button
             type="button"
             id={customId}
             className="button IconButton"
-            onClick={handleOnClick}
+            onClick={handleClick}
         >
             <img
                 src={iconPath}

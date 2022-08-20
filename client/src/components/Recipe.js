@@ -15,7 +15,7 @@ const Recipe = ({ handleOnClose, data, image }) => {
                     <ButtonText
                         customId="button-arrow-back"
                         text="Back"
-                        handleOnClick={handleOnClose}
+                        handleClick={handleOnClose}
                         imagePath={arrowBack}
                     />
 
@@ -63,7 +63,7 @@ const Recipe = ({ handleOnClose, data, image }) => {
 
                     <ButtonOutlined
                         text="Close"
-                        handleOnClick={handleOnClose}
+                        handleClick={handleOnClose}
                     />
 
                 </div>

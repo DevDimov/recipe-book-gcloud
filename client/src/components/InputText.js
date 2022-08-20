@@ -91,7 +91,7 @@ const InputText = ({ accessRef, suggestions }) => {
                     type="button"
                     text="Add"
                     iconPath={addIcon}
-                    handleOnClick={onAdd}
+                    handleClick={onAdd}
                 />
             </div>
 

@@ -1,13 +1,18 @@
+import React from "react"
 import searchIcon from '../../icons/search.svg'
 
-const SearchButton = ({ handleOnClick }) => {
+type SearchButtonProps = {
+    handleClick(event: React.MouseEvent<HTMLButtonElement>): void,
+}
+
+const SearchButton = ({ handleClick }: SearchButtonProps) => {
 
     return (
         <button
             type="button"
             id="searchButton"
             className="button IconButton"
-            onClick={handleOnClick}
+            onClick={handleClick}
             data-testid='searchButton'
         >
             <img

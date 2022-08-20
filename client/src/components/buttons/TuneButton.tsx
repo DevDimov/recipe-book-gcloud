@@ -1,13 +1,17 @@
 import tuneIcon from '../../icons/tune.svg'
 
-const TuneButton = ({ handleOnClick }) => {
+type TuneButtonProps = {
+    handleClick(event: React.MouseEvent<HTMLButtonElement>): void,
+}
+
+const TuneButton = ({ handleClick }: TuneButtonProps) => {
 
     return (
         <button
             type="button"
             id="tuneButton"
             className="ButtonIconClear"
-            onClick={handleOnClick}
+            onClick={handleClick}
             data-testid="tuneButton"
         >
             <img

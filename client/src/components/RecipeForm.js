@@ -143,7 +143,7 @@ const RecipeForm = ({ toggleForm }) => {
                 <ButtonText
                     customId="button-arrow-back"
                     text="Back"
-                    handleOnClick={handleCancel}
+                    handleClick={handleCancel}
                     imagePath={arrowBack}
                 />
 
@@ -193,8 +193,8 @@ const RecipeForm = ({ toggleForm }) => {
                     </label>
 
                     <InputMethod accessRef={methodRef} />
-                    <ButtonContained text="Save" handleOnClick={handleSubmit} />
-                    <ButtonText text="Cancel" handleOnClick={handleCancel} />
+                    <ButtonContained text="Save" handleClick={handleSubmit} />
+                    <ButtonText text="Cancel" handleClick={handleCancel} />
                     <Alert text={submitStatus} />
 
                 </form>

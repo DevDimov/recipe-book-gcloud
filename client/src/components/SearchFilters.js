@@ -48,11 +48,11 @@ const SearchFilters = ({ toggleSearchFilters, setRecipes }) => {
                 />
                 <ButtonContained
                     text="Search"
-                    handleOnClick={onSearch}
+                    handleClick={onSearch}
                 />
                 <ButtonText
                     text="Close"
-                    handleOnClick={toggleSearchFilters}
+                    handleClick={toggleSearchFilters}
                 />
             </form>
         </div>

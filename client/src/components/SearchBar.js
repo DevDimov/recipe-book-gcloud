@@ -46,8 +46,8 @@ const SearchBar = ({ setRecipes }) => {
                     onKeyDown={onKeyDown}
                 />
                 <div className="search-buttons">
-                    <TuneButton handleOnClick={toggleSearchFilters} />
-                    <SearchButton handleOnClick={search} />
+                    <TuneButton handleClick={toggleSearchFilters} />
+                    <SearchButton handleClick={search} />
                 </div>
             </div>
             {searchFilters ?

@@ -8,7 +8,7 @@ const ImageUpload = ({ image, setImage }) => {
 
     const imageRef = useRef()
 
-    const handleOnClick = () => {
+    const handleClick = () => {
         imageRef.current.click()
     }
 
@@ -47,7 +47,7 @@ const ImageUpload = ({ image, setImage }) => {
                         <ButtonOutlined
                             text="Upload image"
                             iconPath={uploadIcon}
-                            handleOnClick={handleOnClick}
+                            handleClick={handleClick}
                         />
                         <input
                             ref={imageRef}

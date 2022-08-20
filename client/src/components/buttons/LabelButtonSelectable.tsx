@@ -1,6 +1,12 @@
 import './LabelButtonSelectable.css'
 
-const LabelButtonSelectable = ({ text, onSelect, disabled }) => {
+type LabelButtonSelectableProps = {
+    text: string,
+    disabled: boolean,
+    handleChange(event: React.ChangeEvent<HTMLInputElement>): void,
+}
+
+const LabelButtonSelectable = ({ text, handleChange, disabled }: LabelButtonSelectableProps) => {
 
     return (
         <div className="labelButtonContainer">
@@ -8,7 +14,7 @@ const LabelButtonSelectable = ({ text, onSelect, disabled }) => {
                 type="checkbox"
                 id={text}
                 value={text}
-                onChange={onSelect}
+                onChange={handleChange}
                 disabled={disabled}
             >
             </input >
