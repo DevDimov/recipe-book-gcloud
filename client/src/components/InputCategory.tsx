@@ -5,20 +5,28 @@ import InputSuggestions from './InputSuggestions'
 import ButtonOutlined from './buttons/ButtonOutlined'
 import LabelButtonsEditable from './LabelButtonsEditable'
 import addIcon from '../icons/add.svg'
+import { accessRefArrayStringType } from '../js/types'
 
-const InputCategory = ({ accessRef }) => {
+type InputCategoryState = {
+    userInput: string,
+    filteredSuggestions: string[],
+    activeSuggestion: number,
+    showSuggestions: boolean
+}
 
-    const [suggestions, setSuggestions] = useState([])
-    const [categories, setCategories] = useState([])
+const InputCategory = ({ accessRef }: accessRefArrayStringType) => {
+
+    const [suggestions, setSuggestions] = useState<string[]>([])
+    const [categories, setCategories] = useState<string[]>([])
 
     const [state, setState] = useState({
         userInput: '',
         filteredSuggestions: [],
         activeSuggestion: -1,
         showSuggestions: false
-    })
+    } as InputCategoryState)
 
-    const inputRef = useRef()
+    const inputRef = useRef<HTMLInputElement>(null!)
 
     useEffect(() => {
         // add database call
@@ -29,7 +37,7 @@ const InputCategory = ({ accessRef }) => {
         accessRef.current = categories
     }, [categories])
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const userInput = e.currentTarget.value;
         let re = new RegExp(userInput, 'i');
         let matches = suggestions.filter(suggestion => suggestion.search(re) > -1)
@@ -41,7 +49,7 @@ const InputCategory = ({ accessRef }) => {
         })
     }
 
-    const handleClick = (e) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         const input = state.userInput.trim()
         if (input) {
@@ -65,7 +73,7 @@ const InputCategory = ({ accessRef }) => {
         }
     }
 
-    const onRemove = (categoryName) => {
+    const onRemove = (categoryName: string) => {
         let newCategories = categories.filter(category => category !== categoryName)
         setCategories(newCategories)
     }
@@ -83,7 +91,7 @@ const InputCategory = ({ accessRef }) => {
                     ref={inputRef}
                     type="text"
                     id="categoryInput"
-                    maxLength="40"
+                    maxLength={40}
                     onChange={handleChange}
                     value={state.userInput}
                     placeholder="Add up to three categories related to your recipe"

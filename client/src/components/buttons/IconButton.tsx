@@ -1,5 +1,5 @@
 type IconButtonProps = {
-    customId: string,
+    customId?: string,
     iconPath: string,
     handleClick(event: React.MouseEvent<HTMLButtonElement>): void;
 }

@@ -1,4 +1,9 @@
-const InputMethodStep = ({ step, text }) => {
+type InputMethodStepProps = {
+    step: number,
+    text: string
+}
+
+const InputMethodStep = ({ step, text }: InputMethodStepProps) => {
 
     return (
         <div className="input-method-step">

@@ -1,6 +1,11 @@
 import './InputCategoryLabel.css'
 
-const InputCategoryLabel = ({ text, onRemove }) => {
+type InputCategoryLabelProps = {
+    text: string,
+    onRemove(text: string): void
+}
+
+const InputCategoryLabel = ({ text, onRemove }: InputCategoryLabelProps) => {
 
     return (
         <button

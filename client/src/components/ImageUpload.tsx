@@ -4,23 +4,28 @@ import ButtonOutlined from './buttons/ButtonOutlined'
 import uploadIcon from '../icons/file_upload.svg'
 import ImagePreview from './ImagePreview'
 
-const ImageUpload = ({ image, setImage }) => {
+type ImageUploadProps = {
+    image: Blob | MediaSource,
+    setImage(image: File | null): void,
+}
 
-    const imageRef = useRef()
+const ImageUpload = ({ image, setImage }: ImageUploadProps) => {
+
+    const imageRef = useRef<HTMLInputElement>(null!)
 
     const handleClick = () => {
         imageRef.current.click()
     }
 
-    const selectImage = async (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
 
-        const file = imageRef.current.files
-        let newImage = null
+        const fileList = imageRef.current.files
+        let newImage: File | null = null
 
-        if (file.length > 0) {
-            if (file[0].type.startsWith('image/')) {
-                newImage = file[0]
+        if (fileList !== null && fileList.length > 0) {
+            if (fileList[0].type.startsWith('image/')) {
+                newImage = fileList[0]
             }
             else {
                 console.log('Please upload an image file in jpg format.')
@@ -29,7 +34,7 @@ const ImageUpload = ({ image, setImage }) => {
         setImage(newImage)
     }
 
-    const onClosePreview = (e) => {
+    const handleClosePreview = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setImage(null)
     }
@@ -40,7 +45,7 @@ const ImageUpload = ({ image, setImage }) => {
                 image !== null ?
                     <ImagePreview
                         src={URL.createObjectURL(image)}
-                        handleOnClose={onClosePreview}
+                        handleClose={handleClosePreview}
                     />
                     :
                     <div className="button--image-upload">
@@ -55,7 +60,7 @@ const ImageUpload = ({ image, setImage }) => {
                             name="filename"
                             className="custom-file-input"
                             accept=".jpg,.jpeg"
-                            onChange={selectImage}
+                            onChange={handleChange}
                         />
                     </div>
             }

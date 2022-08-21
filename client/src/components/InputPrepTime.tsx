@@ -1,9 +1,10 @@
 import { useRef, useEffect } from 'react'
 import './InputNumber.css'
+import { accessRefInputType } from '../js/types'
 
-const InputPrepTime = ({ accessRef }) => {
+const InputPrepTime = ({ accessRef }: accessRefInputType) => {
 
-    const inputRef = useRef()
+    const inputRef = useRef<HTMLInputElement>(null!)
 
     useEffect(() => {
         accessRef.current = inputRef.current

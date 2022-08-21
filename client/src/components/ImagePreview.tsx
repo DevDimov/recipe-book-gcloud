@@ -2,9 +2,14 @@ import './ImagePreview.css'
 import IconButton from './buttons/IconButton'
 import closeIcon from '../icons/close.svg'
 
-const ImagePreview = ({ src, handleOnClose }) => {
+type ImagePreviewProps = {
+    src: string,
+    handleClose?(event: React.MouseEvent<HTMLButtonElement>): void;
+}
 
-    const style = {
+const ImagePreview = ({ src, handleClose }: ImagePreviewProps) => {
+
+    const style: React.CSSProperties = {
         position: "absolute",
         height: "100%",
         width: "100%",
@@ -17,9 +22,9 @@ const ImagePreview = ({ src, handleOnClose }) => {
         <div className="image-preview">
             <div style={style} />
             {
-                handleOnClose && <IconButton
+                handleClose && <IconButton
                     iconPath={closeIcon}
-                    handleClick={handleOnClose}
+                    handleClick={handleClose}
                 />
             }
         </div>

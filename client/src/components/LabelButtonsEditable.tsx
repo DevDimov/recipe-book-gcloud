@@ -1,6 +1,11 @@
 import InputCategoryLabel from "./InputCategoryLabel"
 
-const LabelButtonsEditable = ({ array, onRemove }) => {
+type LabelButtonsEditableProps = {
+    array: string[],
+    onRemove(text: string): void
+}
+
+const LabelButtonsEditable = ({ array, onRemove }: LabelButtonsEditableProps) => {
 
     return (
         <div className="categories-container">

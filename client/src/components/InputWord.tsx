@@ -1,6 +1,13 @@
 import './InputWord.css'
+import { MutableRefObject } from 'react'
 
-const InputWord = ({ headerName, labelName, accessRef }) => {
+type InputWordProps = {
+    headerName: string,
+    labelName: string,
+    accessRef: MutableRefObject<string>
+}
+
+const InputWord = ({ headerName, labelName, accessRef }: InputWordProps) => {
 
     return (
         <div className="InputWord">
@@ -9,7 +16,7 @@ const InputWord = ({ headerName, labelName, accessRef }) => {
                 <span>{labelName}</span>
                 <input
                     type="text"
-                    maxLength="40"
+                    maxLength={40}
                     onChange={(e) => accessRef.current = e.currentTarget.value}
                 />
             </label>
