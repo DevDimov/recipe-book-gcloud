@@ -1,6 +1,6 @@
 type ButtonOutlinedProps = {
     text: string,
-    iconPath: string,
+    iconPath?: string,
     handleClick(event: React.MouseEvent<HTMLButtonElement>): void;
 }
 

@@ -1,7 +1,8 @@
 import './Recipes.css'
 import RecipeCard from './RecipeCard'
+import { Recipe } from '../js/types'
 
-const Recipes = ({ data }) => {
+const Recipes = ({ data }: { data: Recipe[] }) => {
 
     return (
         <div className="recipes">

@@ -9,8 +9,8 @@ function App() {
     const [recipes, setRecipes] = useState([])
 
     useEffect(() => {
-        // fetch('./testData/twoRecipes.json') // for debugging
-        fetch('/recipes/6')
+        fetch('./testData/twoRecipes.json') // for debugging
+        // fetch('/recipes/6')
             .then(res => res.json())
             .then(data => setRecipes(data))
             .catch((error) => {

@@ -7,12 +7,18 @@ import InputWord from './InputWord'
 import ButtonContained from './buttons/ButtonContained'
 import ButtonText from './buttons/ButtonText'
 import { searchWithFilters } from '../js/mysql'
+import { Recipe } from '../js/types'
 
-const SearchFilters = ({ toggleSearchFilters, setRecipes }) => {
+type SearchFiltersProps = {
+    toggleSearchFilters(): void,
+    setRecipes(data: Recipe[]): void
+}
 
-    const categoryRef = useRef([])
-    const prepTimeRef = useRef(0)
-    const servingsRef = useRef(0)
+const SearchFilters = ({ toggleSearchFilters, setRecipes }: SearchFiltersProps) => {
+
+    const categoryRef = useRef<string[]>([]!)
+    const prepTimeRef = useRef<HTMLInputElement>(null!)
+    const servingsRef = useRef<HTMLInputElement>(null!)
     const ingredientRef = useRef('')
 
     const onSearch = async () => {

@@ -1,7 +1,7 @@
 type ButtonTextProps = {
-    customId: string,
+    customId?: string,
     text: string,
-    imagePath: string,
+    imagePath?: string,
     handleClick(event: React.MouseEvent<HTMLButtonElement>): void;
 }
 

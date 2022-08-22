@@ -1,33 +1,23 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './RecipeCard.css'
 import Recipe from './Recipe'
 import ImagePreview from './ImagePreview'
-import { sqlGetImage } from '../js/mysql'
+import { Recipe as RecipeType } from '../js/types'
 
-const RecipeCard = ({ data }) => {
+const RecipeCard = ({ data }: { data: RecipeType }) => {
 
     const [showRecipe, setShowRecipe] = useState(false)
-    const [image, setImage] = useState('')
 
-    const handleOnClose = () => setShowRecipe(false)
-
-    // useEffect(() => {
-    //     const fetchImage = async () => {
-    //         const newImage = await sqlGetImage(data.id)
-    //         if (!newImage.error) setImage(newImage)
-    //     }
-    //     fetchImage()
-    // }, [data])
-    // comment the above hook when debugging
+    const handleRecipeClose = () => setShowRecipe(false)
+    const handleCardClick = () => setShowRecipe(true)
 
     return (
         <>
             <div className="card card--recipe">
                 <button
                     className="button button--card"
-                    onClick={() => setShowRecipe(true)}
+                    onClick={handleCardClick}
                 >
-                    {/* <ImagePreview src={image ? image : './images/pending-image.jpg'} /> */}
                     <ImagePreview src={data.image} />
                     <h2 className="card-recipe__title">{data.name}</h2>
                     <p className="card-recipe__supporting-text">{data.description}</p>
@@ -40,9 +30,8 @@ const RecipeCard = ({ data }) => {
             </div>
             {showRecipe ?
                 <Recipe
-                    handleOnClose={handleOnClose}
+                    handleClose={handleRecipeClose}
                     data={data}
-                    // image={image}
                 />
                 : null
             }

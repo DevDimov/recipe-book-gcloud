@@ -5,7 +5,7 @@ import uploadIcon from '../icons/file_upload.svg'
 import ImagePreview from './ImagePreview'
 
 type ImageUploadProps = {
-    image: Blob | MediaSource,
+    image: File | null,
     setImage(image: File | null): void,
 }
 
@@ -13,9 +13,7 @@ const ImageUpload = ({ image, setImage }: ImageUploadProps) => {
 
     const imageRef = useRef<HTMLInputElement>(null!)
 
-    const handleClick = () => {
-        imageRef.current.click()
-    }
+    const handleClick = () => imageRef.current.click()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();

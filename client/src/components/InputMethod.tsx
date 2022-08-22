@@ -4,9 +4,9 @@ import InputMethodStep from './InputMethodStep'
 import ButtonOutlined from './buttons/ButtonOutlined'
 import addIcon from '../icons/add.svg'
 import closeIcon from '../icons/close.svg'
-import { accessRefArrayStringType } from '../js/types'
+import { AccessRefArrayStringType } from '../js/types'
 
-const InputMethod = ({ accessRef }: accessRefArrayStringType) => {
+const InputMethod = ({ accessRef }: AccessRefArrayStringType) => {
 
     const [value, setValue] = useState('')
     const [showPlaceholder, setShowPlaceholder] = useState(true)

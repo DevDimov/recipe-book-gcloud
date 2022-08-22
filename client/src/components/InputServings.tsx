@@ -1,8 +1,8 @@
 import { useRef, useEffect } from 'react'
 import './InputNumber.css'
-import { accessRefInputType } from '../js/types'
+import { AccessRefInputType } from '../js/types'
 
-const InputServings = ({ accessRef }: accessRefInputType) => {
+const InputServings = ({ accessRef }: AccessRefInputType) => {
 
     const inputRef = useRef<HTMLInputElement>(null!)
 

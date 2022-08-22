@@ -4,8 +4,14 @@ import ImagePreview from './ImagePreview'
 import arrowBack from '../icons/arrow_back.svg'
 import Tag from './Tag'
 import ButtonText from './buttons/ButtonText'
+import { Recipe as RecipeType } from '../js/types'
 
-const Recipe = ({ handleOnClose, data, image }) => {
+type RecipeProps = {
+    handleClose(): void,
+    data: RecipeType,
+}
+
+const Recipe = ({ handleClose, data }: RecipeProps) => {
 
     return (
         <div className="centered">
@@ -15,11 +21,10 @@ const Recipe = ({ handleOnClose, data, image }) => {
                     <ButtonText
                         customId="button-arrow-back"
                         text="Back"
-                        handleClick={handleOnClose}
+                        handleClick={handleClose}
                         imagePath={arrowBack}
                     />
 
-                    {/* <ImagePreview src={image ? image : `./images/pending-image.jpg`} /> */}
                     <ImagePreview src={data.image} />
 
                     <div>
@@ -63,7 +68,7 @@ const Recipe = ({ handleOnClose, data, image }) => {
 
                     <ButtonOutlined
                         text="Close"
-                        handleClick={handleOnClose}
+                        handleClick={handleClose}
                     />
 
                 </div>

@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, MutableRefObject } from 'react'
 import './InputCategory.css'
 
 import InputSuggestions from './InputSuggestions'
 import ButtonOutlined from './buttons/ButtonOutlined'
 import LabelButtonsEditable from './LabelButtonsEditable'
 import addIcon from '../icons/add.svg'
-import { accessRefArrayStringType } from '../js/types'
 
 type InputCategoryState = {
     userInput: string,
@@ -14,7 +13,7 @@ type InputCategoryState = {
     showSuggestions: boolean
 }
 
-const InputCategory = ({ accessRef }: accessRefArrayStringType) => {
+const InputCategory = ({ accessRef }: { accessRef: MutableRefObject<string[]> }) => {
 
     const [suggestions, setSuggestions] = useState<string[]>([])
     const [categories, setCategories] = useState<string[]>([])

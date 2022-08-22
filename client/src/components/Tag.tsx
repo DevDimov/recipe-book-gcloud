@@ -1,6 +1,6 @@
 import './Tag.css'
 
-const Tag = ({ text }) => {
+const Tag = ({ text }: { text: string }) => {
 
     return <span className="tag">{text}</span>
 }

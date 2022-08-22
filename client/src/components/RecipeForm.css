@@ -25,6 +25,7 @@
 #newEntryForm textarea#ingredients {
     border-bottom-right-radius: 0;
     line-height: 2;
+    resize: vertical;
 }
 
 #newEntryForm input:focus,

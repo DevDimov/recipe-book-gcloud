@@ -1,8 +1,7 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, MutableRefObject } from 'react'
 import './InputNumber.css'
-import { accessRefInputType } from '../js/types'
 
-const InputPrepTime = ({ accessRef }: accessRefInputType) => {
+const InputPrepTime = ({ accessRef }: { accessRef: MutableRefObject<HTMLInputElement> }) => {
 
     const inputRef = useRef<HTMLInputElement>(null!)
 
