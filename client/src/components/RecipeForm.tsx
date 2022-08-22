@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import './RecipeForm.css'
 import InputMethod from './InputMethod'
 import ImageUpload from './ImageUpload'
-// import { insertDocument, checkDuplicateName } from '../js/mysql'
+import { insertDocument, checkDuplicateName } from '../js/mysql'
 import Alert from './Alert'
 import InputPrepTime from './InputPrepTime'
 import InputServings from './InputServings'
@@ -34,8 +34,8 @@ const RecipeForm = ({ toggleForm }: { toggleForm(): void }) => {
         formData.append('name', nameRef.current ? nameRef.current.value.trim() : '')
         formData.append('description', descriptionRef.current ? descriptionRef.current.value.trim() : '')
         formData.append('category', categoryRef.current.join(' && '))
-        formData.append('prepTime', prepTimeRef.current ? prepTimeRef.current.value : '')
-        formData.append('servings', servingsRef.current ? servingsRef.current.value : '')
+        formData.append('prepTime', prepTimeRef.current.value || '')
+        formData.append('servings', servingsRef.current.value || '')
         formData.append('ingredients', ingredientsRef.current ? ingredientsRef.current.value.trim() : '')
         formData.append('step1', methodRef.current[0] || '')
         formData.append('step2', methodRef.current[1] || '')
@@ -49,9 +49,9 @@ const RecipeForm = ({ toggleForm }: { toggleForm(): void }) => {
         const inputValid = await validateInput(formData)
         if (inputValid) {
             setSubmitStatus('Saving recipe...')
-            // const response = await insertDocument(formData)
-            // console.log(response)
-            // handleInsertResponse(response)
+            const response = await insertDocument(formData)
+            console.log(response)
+            handleInsertResponse(response)
         }
     }
 
@@ -61,16 +61,12 @@ const RecipeForm = ({ toggleForm }: { toggleForm(): void }) => {
             setSubmitStatus('Please upload an image')
             return false
         }
-        if (formData.get('name') === '') {
+
+        const name = formData.get('name')
+        if (!name) {
             setSubmitStatus('Please add a recipe name')
             return false
         }
-
-        // const result = await checkDuplicateName({ name: formData.get('name') })
-        // if (result.match) {
-        //     setSubmitStatus(`A recipe with the same name exists. Total matches ${result.count}`)
-        //     return false
-        // }
 
         if (formData.get('description') === '') {
             setSubmitStatus('Please add a recipe description')
@@ -88,6 +84,14 @@ const RecipeForm = ({ toggleForm }: { toggleForm(): void }) => {
             setSubmitStatus('Please add at least one method step')
             return false
         }
+
+        const nameStr = name.toString()
+        const result: { match: boolean, count: number } = await checkDuplicateName({ name: nameStr })
+        if (result.match) {
+            setSubmitStatus(`A recipe with the same name exists. Total matches ${result.count}`)
+            return false
+        }
+
         return true
     }
 

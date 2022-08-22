@@ -1,12 +1,17 @@
-import { useState, useEffect } from "react"
-import LabelButtonSelectable from "../components/buttons/LabelButtonSelectable"
+import React, { useState, useEffect, MutableRefObject } from "react"
+import LabelButtonSelectable from "./buttons/LabelButtonSelectable"
 
-const LabelButtonsSelectable = ({ headerName, accessRef }) => {
+type LabelButtonsSelectableProps = {
+    headerName: string,
+    accessRef: MutableRefObject<string[]>
+}
 
-    const [labels, setLabels] = useState([])
-    const [selected, setSelected] = useState([])
+const LabelButtonsSelectable = ({ headerName, accessRef }: LabelButtonsSelectableProps) => {
 
-    const onSelect = (e) => {
+    const [labels, setLabels] = useState<string[]>([])
+    const [selected, setSelected] = useState<string[]>([])
+
+    const onSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
         const checked = e.currentTarget.checked
         const newValue = e.currentTarget.value
         if (checked) {

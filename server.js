@@ -78,7 +78,7 @@ app.post('/insert', upload.single('file'), async (req, res) => {
             step7: req.body.step7 || null,
             step8: req.body.step8 || null,
         }
-        // console.log('Method data', methodData) // for dev
+        console.log('Method data', methodData) // for dev
 
         const imageData = {
             id: recipeData.id,

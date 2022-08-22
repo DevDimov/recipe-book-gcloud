@@ -1,10 +1,10 @@
-const checkDuplicateName = async (query) => {
+const checkDuplicateName = async (nameObj: { name: string }) => {
     return fetch('/searchByExactName', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(query),
+        body: JSON.stringify(nameObj),
     })
         .then(response => response.json())
         .then(data => {
@@ -17,7 +17,7 @@ const checkDuplicateName = async (query) => {
         })
 }
 
-const insertDocument = async (formData) => {
+const insertDocument = async (formData: FormData) => {
     return fetch('/insert', {
         method: 'POST',
         body: formData,
@@ -33,7 +33,7 @@ const insertDocument = async (formData) => {
         })
 }
 
-const searchByName = async (nameObj) => {
+const searchByName = async (nameObj: { name: string }) => {
     return fetch('/searchByName', {
         method: 'POST',
         headers: {
@@ -52,7 +52,14 @@ const searchByName = async (nameObj) => {
         })
 }
 
-const searchWithFilters = async (query) => {
+type SearchWithFilters = {
+    category: string[],
+    prepTime: number,
+    servings: number,
+    ingredientMatch: string
+}
+
+const searchWithFilters = async (query: SearchWithFilters) => {
     return fetch('/searchWithFilters', {
         method: 'POST',
         headers: {

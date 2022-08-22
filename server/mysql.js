@@ -132,6 +132,19 @@ const insertRecipe = (recipeData, categoryData, methodData, imageData, callback)
     });
 }
 
+const deleteRecipeById = (id) => {
+    const tables = ['image', 'method', 'category', 'recipes']
+    tables.forEach(table => {
+        connection.query(`DELETE FROM ${table} WHERE id=?`, [id], function (error, results) {
+            if (error) {
+                console.log('couldnt delete from', table)
+                throw error
+            }
+            console.log(table, results);
+        });
+    })
+}
+
 module.exports = {
     getRecipes,
     getImageById,
