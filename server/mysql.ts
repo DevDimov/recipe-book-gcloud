@@ -1,3 +1,14 @@
+import { MysqlError, OkPacket } from "mysql";
+import {
+    RecipeTableRecord,
+    CategoryTableRecord,
+    MethodTableRecord,
+    ImageTableRecord,
+    RecipeJSON,
+    RecipeSQL,
+    SearchFilters
+} from "./types";
+
 // Load environment variables
 const path = require('path')
 require('dotenv').config({ path: path.join(__dirname, '../.env') })
@@ -13,23 +24,23 @@ const connection = mysql.createConnection({
 });
 connection.connect();
 
-const getRecipes = (limit, callback) => {
+const getRecipes = (limit: number, callback: (results: RecipeJSON[]) => void) => {
     connection.query(
         `SELECT * FROM recipes
         LEFT JOIN category ON recipes.id = category.id
         LEFT JOIN method ON recipes.id = method.id
         LEFT JOIN image ON recipes.id = image.id
         LIMIT ${limit}`,
-        function (error, results) {
+        function (error: MysqlError, results: RecipeSQL[]) {
             if (error) throw error
             callback(sqlToObj(results))
         });
 }
 
-const getImageById = (id, callback) => {
+const getImageById = (id: string, callback: (image: string) => void) => {
     connection.query(
         'SELECT image FROM image WHERE id = ?', id,
-        function (error, results) {
+        function (error: MysqlError, results: RecipeSQL[]) {
             if (error) throw error
             // Return image as Buffer to callback function
             callback(results[0].image)
@@ -37,27 +48,30 @@ const getImageById = (id, callback) => {
     )
 }
 
-const searchByName = (name, callback) => {
+const searchByName = (name: string, callback: (results: RecipeSQL[]) => void) => {
     connection.query(
         `SELECT * FROM recipes
         LEFT JOIN category ON recipes.id = category.id
         LEFT JOIN method ON recipes.id = method.id
         LEFT JOIN image ON recipes.id = image.id
         WHERE recipes.name REGEXP ?`, name,
-        function (error, results) {
+        function (error: MysqlError, results: RecipeSQL[]) {
             if (error) throw error
             callback(sqlToObj(results))
         }
     )
 }
 
-const searchByExactName = (name, callback) => {
+type RowDataPacket = {
+    'COUNT(name)': number
+}
+const searchByExactName = (name: string, callback: ({ match, count }: { match: boolean, count: number }) => void) => {
     connection.query(
         'SELECT COUNT(name) FROM recipes WHERE name = ?', name,
-        function (error, results) {
+        function (error: MysqlError, results: RowDataPacket[]) {
             if (error) throw error
             let match = false
-            const count = results[0]['COUNT(name)']
+            const count: number = results[0]['COUNT(name)']
             if (count > 0) {
                 match = true
             }
@@ -67,7 +81,7 @@ const searchByExactName = (name, callback) => {
     )
 }
 
-const searchWithFilters = (filters, callback) => {
+const searchWithFilters = (filters: SearchFilters, callback: (results: RecipeJSON[]) => void) => {
     const query = setQuery(filters)
     connection.query(
         `SELECT * FROM recipes
@@ -75,15 +89,15 @@ const searchWithFilters = (filters, callback) => {
         LEFT JOIN method ON recipes.id = method.id
         LEFT JOIN image ON recipes.id = image.id
         WHERE ${query}`,
-        function (error, results) {
+        function (error: MysqlError, results: RecipeSQL[]) {
             if (error) throw error
             callback(sqlToObj(results))
         }
     )
 }
 
-const setQuery = (filters) => {
-    let query = []
+const setQuery = (filters: SearchFilters): string => {
+    let query: string[] = []
     for (let key of Object.keys(filters)) {
         if (key === 'category' && filters[key].length > 0) {
             const categories = filters.category.map(cat => `${connection.escape(cat)}`).join(',')
@@ -99,30 +113,49 @@ const setQuery = (filters) => {
 
 }
 
-const insertRecipe = (recipeData, categoryData, methodData, imageData, callback) => {
-    let allResults = {}
-    connection.query(`INSERT INTO recipes SET ?`, recipeData, function (error, results) {
+type InsertRecipeResults = {
+    recipes: OkPacket,
+    category: OkPacket,
+    method: OkPacket,
+    image: OkPacket
+}
+
+const insertRecipe = (
+    recipeData: RecipeTableRecord,
+    categoryData: CategoryTableRecord,
+    methodData: MethodTableRecord,
+    imageData: ImageTableRecord,
+    callback: (allResults: InsertRecipeResults) => void) => {
+
+    let allResults = {
+        recipes: {},
+        category: {},
+        method: {},
+        image: {}
+    } as InsertRecipeResults
+
+    connection.query(`INSERT INTO recipes SET ?`, recipeData, function (error: MysqlError, results: OkPacket) {
         if (error) {
             deleteRecipeById(recipeData.id)
             throw error
         }
         allResults['recipes'] = results
     });
-    connection.query(`INSERT INTO category SET ?`, categoryData, function (error, results) {
+    connection.query(`INSERT INTO category SET ?`, categoryData, function (error: MysqlError, results: OkPacket) {
         if (error) {
             deleteRecipeById(recipeData.id)
             throw error
         }
         allResults['category'] = results
     });
-    connection.query(`INSERT INTO method SET ?`, methodData, function (error, results) {
+    connection.query(`INSERT INTO method SET ?`, methodData, function (error: MysqlError, results: OkPacket) {
         if (error) {
             deleteRecipeById(recipeData.id)
             throw error
         }
         allResults['method'] = results
     });
-    connection.query(`INSERT INTO image SET ?`, imageData, function (error, results) {
+    connection.query(`INSERT INTO image SET ?`, imageData, function (error: MysqlError, results: OkPacket) {
         if (error) {
             deleteRecipeById(recipeData.id)
             throw error
@@ -132,10 +165,10 @@ const insertRecipe = (recipeData, categoryData, methodData, imageData, callback)
     });
 }
 
-const deleteRecipeById = (id) => {
+const deleteRecipeById = (id: string) => {
     const tables = ['image', 'method', 'category', 'recipes']
     tables.forEach(table => {
-        connection.query(`DELETE FROM ${table} WHERE id=?`, [id], function (error, results) {
+        connection.query(`DELETE FROM ${table} WHERE id=?`, [id], function (error: MysqlError, results: OkPacket) {
             if (error) {
                 console.log('couldnt delete from', table)
                 throw error

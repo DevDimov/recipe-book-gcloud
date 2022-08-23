@@ -2,3 +2,5 @@
 /client/node_modules
 .env
 /server/sample_responses
+URL.txt
+/server/devtest/

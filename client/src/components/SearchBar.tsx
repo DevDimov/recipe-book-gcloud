@@ -30,8 +30,7 @@ const SearchBar = ({ setRecipes }: { setRecipes(data: Recipe[]): void }) => {
     const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         // User pressed the enter key
         const userInput = inputRef.current.value.trim().length
-        var key = e.key || e.keyCode
-        if (key === 13 && userInput > 2) search()
+        if (e.key === 'Enter' && userInput > 2) search()
     }
 
     const toggleSearchFilters = () => { setSearchFilters(!searchFilters) }

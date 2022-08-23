@@ -1,7 +1,9 @@
+import { RecipeSQL, RecipeJSON } from "./types";
+
 const fs = require("fs");
 
-const deleteMulterImage = async (filePath) => {
-    fs.unlink(filePath, (err => {
+const deleteMulterImage = async (filePath: string) => {
+    fs.unlink(filePath, ((err: any) => {
         if (err) console.log(err);
         else {
             console.log("Deleted file from:" + filePath);
@@ -9,8 +11,8 @@ const deleteMulterImage = async (filePath) => {
     }));
 }
 
-const sqlToObj = (array) => {
-    const data = []
+const sqlToObj = (array: RecipeSQL[]): RecipeJSON[] => {
+    const data: RecipeJSON[] = []
     array.forEach(recipe => {
         var recipeData = {
             'id': recipe.id,

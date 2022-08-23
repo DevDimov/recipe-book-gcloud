@@ -1,11 +1,22 @@
+import {
+    RecipeTableRecord,
+    CategoryTableRecord,
+    ImageTableRecord,
+    MethodTableRecord,
+    RecipeJSON
+} from './types'
+
+// Load types
+import { Request, Response, Application } from 'express'
+
 // Load environment variables
 const path = require('path')
 const fs = require("fs");
 require('dotenv')
 
 // Import database CRUD actions
-const mysql = require('./server/mysql.js')
-const { deleteMulterImage } = require('./server/util.js')
+const mysql = require('./mysql.ts')
+const { deleteMulterImage } = require('./util.ts')
 
 const { nanoid } = require('nanoid')
 const multer = require('multer')
@@ -13,44 +24,44 @@ const upload = multer({ dest: 'uploads/' })
 
 // Set up express
 const express = require('express')
-const app = express()
+const app: Application = express()
 const port = process.env.PORT || 8080
 
-app.use(express.static(path.join(__dirname, './client/build'), { extensions: ['html', 'css', 'js', 'svg'] }))
+app.use(express.static(path.join(__dirname, '../client/build'), { extensions: ['html', 'css', 'js', 'svg'] }))
 
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './client/build', 'index.html'))
+app.get('/', (req: Request, res: Response) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
 })
 
-app.get('/recipes/:limit', async (req, res) => {
+app.get('/recipes/:limit', async (req: Request, res: Response) => {
     try {
         const limit = parseInt(req.params.limit)
-        mysql.getRecipes(limit, function callback(results) {
+        mysql.getRecipes(limit, function callback(results: RecipeJSON[]) {
             return res.status(200).json(results)
         })
-    } catch (err) {
+    } catch (err: any) {
         return res.status(500).json({ error: err.message })
     }
 })
 
-app.get('/images/:id', async (req, res) => {
+app.get('/images/:id', async (req: Request, res: Response) => {
     const id = req.params.id
     try {
-        mysql.getImageById(id, function callback(result) {
+        mysql.getImageById(id, function callback(result: (image: string) => void) {
             return res.end(result)
         })
-    } catch (err) {
+    } catch (err: any) {
         return res.status(500).json({ error: err.message })
     }
 })
 
-app.post('/insert', upload.single('file'), async (req, res) => {
+app.post('/insert', upload.single('file'), async (req: any, res: any) => {
     const filePath = req.file.path
     try {
-        const recipeData = {
+        const recipeData: RecipeTableRecord = {
             id: nanoid(10),
             name: req.body.name,
             description: req.body.description,
@@ -59,15 +70,15 @@ app.post('/insert', upload.single('file'), async (req, res) => {
             servings: parseInt(req.body.servings)
         }
 
-        const categories = req.body.category.split(' && ')
-        const categoryData = {
+        const categories: string = req.body.category.split(' && ')
+        const categoryData: CategoryTableRecord = {
             id: recipeData.id,
             category1: categories[0],
             category2: categories[1],
             category3: categories[2],
         }
 
-        const methodData = {
+        const methodData: MethodTableRecord = {
             id: recipeData.id,
             step1: req.body.step1,
             step2: req.body.step2 || null,
@@ -78,52 +89,52 @@ app.post('/insert', upload.single('file'), async (req, res) => {
             step7: req.body.step7 || null,
             step8: req.body.step8 || null,
         }
-        console.log('Method data', methodData) // for dev
+        // console.log('Method data', methodData) // for dev
 
-        const imageData = {
+        const imageData: ImageTableRecord = {
             id: recipeData.id,
             image: fs.readFileSync(filePath)
         }
 
-        mysql.insertRecipe(recipeData, categoryData, methodData, imageData, function callback(results) {
+        mysql.insertRecipe(recipeData, categoryData, methodData, imageData, function callback(results: RecipeJSON[]) {
             return res.status(200).json({ insertedId: recipeData.id, results: results })
         })
 
-    } catch (err) {
+    } catch (err: any) {
         return res.status(500).json({ error: err.message })
     } finally {
         deleteMulterImage(filePath)
     }
 })
 
-app.post('/searchByName', async (req, res) => {
+app.post('/searchByName', async (req: any, res: any) => {
     try {
-        mysql.searchByName(req.body.name, function callback(result) {
+        mysql.searchByName(req.body.name, function callback(result: RecipeJSON[]) {
             return res.status(200).json(result)
         })
-    } catch (err) {
+    } catch (err: any) {
         return res.status(500).json({ error: err.message })
     }
 
 })
 
-app.post('/searchByExactName', (req, res) => {
+app.post('/searchByExactName', (req: any, res: any) => {
     try {
-        mysql.searchByExactName(req.body.name, function callback(result) {
+        mysql.searchByExactName(req.body.name, function callback(result: {match: boolean, count: number}) {
             return res.status(200).json(result)
         })
-    } catch (err) {
+    } catch (err: any) {
         return res.status(500).json({ error: err.message })
     }
 })
 
-app.post('/searchWithFilters', (req, res) => {
+app.post('/searchWithFilters', (req: any, res: any) => {
     // console.log(req.body) // For dev
     try {
-        mysql.searchWithFilters(req.body, function callback(result) {
+        mysql.searchWithFilters(req.body, function callback(result: RecipeJSON[]) {
             return res.status(200).json(result)
         })
-    } catch (err) {
+    } catch (err: any) {
         return res.status(500).json({ error: err.message })
     }
 })
