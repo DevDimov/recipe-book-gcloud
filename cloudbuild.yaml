@@ -13,5 +13,5 @@ steps:
       - "DB_NAME=${_DB_NAME}"
       - "MYSQL_PASSWORD=${_MYSQL_PASSWORD}"
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ["app", "deploy"]
+args: ["app", "deploy"]
 timeout: "1600s"
