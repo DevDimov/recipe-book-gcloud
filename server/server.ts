@@ -140,5 +140,5 @@ app.post('/searchWithFilters', (req: any, res: any) => {
 })
 
 app.listen(port, () => {
-    console.log('Server started at http://localhost:' + port)
+    console.log('Server is listening on port' + port)
 })
