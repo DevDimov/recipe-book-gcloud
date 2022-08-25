@@ -2,7 +2,7 @@ steps:
   - name: node:16
     entrypoint: npm
     args: ["install"]
-  - name: node:16
+  - name: "gcr.io/cloud-builders/npm"
     args: ["run", "create-env"]
     env:
       - "ENVR=prod"
