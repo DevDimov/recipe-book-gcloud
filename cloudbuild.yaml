@@ -1,17 +1,16 @@
 steps:
-  - name: "gcr.io/cloud-builders/npm"
+  - name: node:16
+    entrypoint: npm
     args: ["install"]
-  # - name: 'gcr.io/cloud-builders/npm'
-  #   args: ['run', 'build']
-  - name: "gcr.io/cloud-builders/npm"
+  - name: node:16
     args: ["run", "create-env"]
     env:
-      - "ENVR=${_ENVR}"
+      - "ENVR=prod"
       - "LOCAL_HOST=${_LOCAL_HOST}"
       - "REMOTE_HOST=${_REMOTE_HOST}"
       - "DB_USER=${_DB_USER}"
       - "DB_NAME=${_DB_NAME}"
       - "MYSQL_PASSWORD=${_MYSQL_PASSWORD}"
   - name: "gcr.io/cloud-builders/gcloud"
-args: ["app", "deploy"]
+    args: ["app", "deploy"]
 timeout: "1600s"
