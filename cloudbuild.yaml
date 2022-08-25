@@ -1,8 +1,8 @@
 steps:
-- name: node:16
+- name: node install
   entrypoint: npm
   args: ["install"]
-- name: node:16
+- name: node run & create-env
   entrypoint: npm
   args: ["run", "create-env"]
   env:
@@ -12,6 +12,6 @@ steps:
     - 'DB_USER=${_DB_USER}'
     - 'DB_NAME=${_DB_NAME}'
     - 'MYSQL_PASSWORD=${_MYSQL_PASSWORD}'
-- name: "gcr.io/cloud-builders/gcloud"
+- name: "gcloud app deploy"
   args: ["app", "deploy"]
 timeout: "1600s"
