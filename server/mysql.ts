@@ -17,10 +17,10 @@ const { sqlToObj } = require('./util')
 // Connect to database
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
+    host: process.env.ENVR === 'prod' ? process.env.REMOTE_HOST : 'localhost',
+    user: process.env.DB_USER || 'root',
     password: process.env.MYSQL_PASSWORD,
-    database: 'recipe_book'
+    database: process.env.DB_NAME || 'recipe_book'
 });
 connection.connect();
 
