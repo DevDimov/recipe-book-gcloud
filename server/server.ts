@@ -12,11 +12,11 @@ import { Request, Response, Application } from 'express'
 // Load environment variables
 const path = require('path')
 const fs = require("fs");
-require('dotenv')
+require('dotenv').config({ path: path.join(__dirname, '../.env') })
 
 // Import database CRUD actions
-const mysql = require('./mysql.ts')
-const { deleteMulterImage } = require('./util.ts')
+const mysql = require('./mysql')
+const { deleteMulterImage } = require('./util')
 
 const { nanoid } = require('nanoid')
 const multer = require('multer')
@@ -120,7 +120,7 @@ app.post('/searchByName', async (req: any, res: any) => {
 
 app.post('/searchByExactName', (req: any, res: any) => {
     try {
-        mysql.searchByExactName(req.body.name, function callback(result: {match: boolean, count: number}) {
+        mysql.searchByExactName(req.body.name, function callback(result: { match: boolean, count: number }) {
             return res.status(200).json(result)
         })
     } catch (err: any) {
@@ -140,5 +140,5 @@ app.post('/searchWithFilters', (req: any, res: any) => {
 })
 
 app.listen(port, () => {
-    console.log('Server is listening on port' + port)
+    console.log('Server is listening on port ' + port)
 })

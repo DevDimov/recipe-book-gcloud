@@ -3,6 +3,8 @@ steps:
     entrypoint: npm
     args: ["install"]
   - name: "gcr.io/cloud-builders/npm"
+    args: ["run", "build"]
+  - name: "gcr.io/cloud-builders/npm"
     args: ["run", "create-env"]
     env:
       - "ENVR=prod"
